@@ -49,7 +49,7 @@ Promise.all([usersData, roomsData, bookingsData, roomServicesData]).then(functio
 setTimeout(function() {
   hotel = new Hotel(combinedData.usersData.users, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
   hotel.dailyBookings();
-  hotel.dailyRoomServices();
+  hotel.dailyRoomInfo();
 }, 200)
 
 $('.customers-btn').click(() => {

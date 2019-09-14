@@ -11,6 +11,7 @@ class Hotel {
 		this.currentDate = "2019/10/09";
 		this.availableRooms = 0;
 		this.occupiedPercentage = 0;
+		this.dailyRevenue = 0;
 	}
 
 	customerSearch() {
@@ -42,22 +43,26 @@ class Hotel {
   		$('.main-bookings-room').append(`  ${booking.roomNumber}  `);
   		$('.main-bookings-header').text(`Rooms Available:`);
   		$('.main-bookings-available').text(`${this.availableRooms}`);
+  		let roomRevenue = this.roomsData.filter(room => {
+  			if (room.number === booking.roomNumber) {
+  				this.dailyRevenue += room.costPerNight
+  			}
+  		})
   	})
 	}
 
-	dailyRoomServices() {
+	dailyRoomInfo() {
 		let currentServices = this.roomServicesData.filter(service => {
 	    return (service.date.includes(this.currentDate));
 	  })
   	currentServices.map(service => {
-  		$('.orders-date').text(`${this.currentDate}`)
+  		this.dailyRevenue += service.totalCost;
+  		$('.orders-date').text(`${this.currentDate}`);
   		$('.orders-services-text').text(`Room Services:`);
-  		$('.orders-services-food').append(`  ${service.food}:  $ ${service.totalCost}  `);
+  		$('.orders-services-food').append(`  ${service.food}:  $${service.totalCost}  `);
   	})
-	}
-
-	calculateDailyValues() {
-
+  	$('.main-revenue-header').text(`Daily Revenue:`);
+  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`);
 	}
 }
 
