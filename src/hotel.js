@@ -8,7 +8,7 @@ class Hotel {
 		this.bookingsData = bookingsData;
 		this.roomServicesData = roomServicesData;
 		this.currentCustomer = {};
-		this.currentDate = "2019/10/19";
+		this.currentDate = "2019/10/09";
 	}
 
 	customerSearch() {
@@ -18,7 +18,7 @@ class Hotel {
 	  })
   	searchName.map(customer => {
   		this.currentCustomer = customer;
-    	domUpdates.appendUserInfo(customer);
+    	$('.customers-name').text(customer.name)
   	})
 	}
 
@@ -29,16 +29,24 @@ class Hotel {
 
 	dailyBookings() {
 		let currentBookings = this.bookingsData.filter(booking => {
-	    return (booking.date.toUpperCase().includes(this.currentDate));
+	    return (booking.date.includes(this.currentDate));
 	  })
   	currentBookings.map(booking => {
-  		$('.main-bookings-date').text(`Rooms Booked for ${this.currentDate}:`);
+  		$('.main-date').text(`${this.currentDate}`)
+  		$('.main-bookings-text').text(`Rooms Booked:`);
   		$('.main-bookings-room').append(`  ${booking.roomNumber}  `);
   	})
 	}
 
 	dailyRoomServices() {
-
+		let currentServices = this.roomServicesData.filter(service => {
+	    return (service.date.includes(this.currentDate));
+	  })
+  	currentServices.map(service => {
+  		$('.orders-date').text(`${this.currentDate}`)
+  		$('.orders-services-text').text(`Room Services:`);
+  		$('.orders-services-food').append(`  ${service.food}:  $ ${service.totalCost}  `);
+  	})
 	}
 }
 
