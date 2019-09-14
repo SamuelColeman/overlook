@@ -9,6 +9,8 @@ class Hotel {
 		this.roomServicesData = roomServicesData;
 		this.currentCustomer = {};
 		this.currentDate = "2019/10/09";
+		this.availableRooms = 0;
+		this.occupiedPercentage = 0;
 	}
 
 	customerSearch() {
@@ -31,10 +33,15 @@ class Hotel {
 		let currentBookings = this.bookingsData.filter(booking => {
 	    return (booking.date.includes(this.currentDate));
 	  })
+	  this.availableRooms = 50 - currentBookings.length;
+	  this.occupiedPercentage = (currentBookings.length / 50) * 100; 
   	currentBookings.map(booking => {
   		$('.main-date').text(`${this.currentDate}`)
   		$('.main-bookings-text').text(`Rooms Booked:`);
+  		$('.main-bookings-percent').text(`${this.occupiedPercentage}%`);
   		$('.main-bookings-room').append(`  ${booking.roomNumber}  `);
+  		$('.main-bookings-header').text(`Rooms Available:`);
+  		$('.main-bookings-available').text(`${this.availableRooms}`);
   	})
 	}
 
@@ -47,6 +54,10 @@ class Hotel {
   		$('.orders-services-text').text(`Room Services:`);
   		$('.orders-services-food').append(`  ${service.food}:  $ ${service.totalCost}  `);
   	})
+	}
+
+	calculateDailyValues() {
+
 	}
 }
 
