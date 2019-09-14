@@ -1,5 +1,12 @@
 import $ from 'jquery';
 import './css/base.scss';
+import Hotel from './hotel';
+import Orders from './orders';
+import Rooms from './rooms';
+import Customer from './customer';
+
+let hotel, customer;
+
 // import './images/turing-logo.png'
 $('.tabs-stage div').hide();
 $('.tabs-stage div:first').show();
@@ -36,7 +43,21 @@ Promise.all([usersData, roomsData, bookingsData, roomServicesData]).then(functio
     combinedData["roomsData"] = values[1];
     combinedData["bookingsData"] = values[2];
     combinedData["roomServicesData"] = values[3];
-    console.log(combinedData)
     return combinedData;
+});
+
+setTimeout(function() {
+  hotel = new Hotel(combinedData.usersData.users, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
+  hotel.dailyBookings();
+}, 200)
+
+$('.customers-btn').click(() => {
+  hotel.customerSearch();
+  customer = new Customer(hotel.currentCustomer);
+});
+
+$('.customers-new-btn').click(() => {
+  hotel.addCustomer();
+  customer = new Customer(hotel.currentCustomer);
 });
 
