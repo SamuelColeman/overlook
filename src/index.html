@@ -4,7 +4,7 @@
     <title>Overlook</title>
   </head>
   <body>
-    <h1>Overlook</h1>
+    <h1 class="customers-name">Overlook</h1>
     <main class="tabs-main">
   		<ul class="tabs-nav">
     		<li><a href="#main">Main</a></li>
@@ -14,7 +14,8 @@
   		</ul>
   		<section class="tabs-stage">
     		<div id="main">
-          <h3 class="main-date"></h3>
+          <ul class="main-date-list">
+          </ul>
       		<h2 class="main-bookings-text"></h2>
           <p class="main-bookings-percent"></p>
           <p class="main-bookings-room"></p>
@@ -23,21 +24,23 @@
           <h2 class="main-revenue-header"></h2>
           <p class="main-revenue"></p>
     		</div>
-    		<div id="orders">
-      		<h3 class="orders-date"></h3>
-          <h2 class="orders-services-text"></h2>
-          <p class="orders-services-food"></p>
+        <div id="orders">
+      		  <ul class="orders-date-list"></ul>
+            <h2 class="orders-services-text"></h2>
+            <p class="orders-services-food"></p>
+        </div>
     		</div>
     		<div id="rooms">
-      		<p>Example Text</p>
+      		<ul class="rooms-date-list"></ul>
     		</div>
     		<div id="customers">
+          <h2 class="customer-search-header">Customer Search:</h2>
+          <ul class="customer-date-list"></ul>
           <input class="customers-search">
           <button class="customers-btn">Submit
           </button>
           <button class="customers-new-btn">New Customer
           </button>
-      		<h2 class="customers-name"></h2>
     		</div>
   		</section>
 		</main>

@@ -50,6 +50,10 @@ setTimeout(function() {
   hotel = new Hotel(combinedData.usersData.users, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
+  hotel.createDateList();
+  hotel.appendDateLists('.main-date-list');
+  hotel.appendDateLists('.orders-date-list');
+  hotel.appendDateLists('.rooms-date-list');
 }, 200)
 
 $('.customers-btn').click(() => {
@@ -62,3 +66,8 @@ $('.customers-new-btn').click(() => {
   customer = new Customer(hotel.currentCustomer);
 });
 
+$('.main-date-list').change(() => {
+  hotel.currentDate = $('#mySelect').val();
+  hotel.dailyBookings();
+  hotel.dailyRoomInfo();
+})
