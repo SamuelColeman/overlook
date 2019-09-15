@@ -11,7 +11,7 @@
   		<ul class="tabs-nav">
     		<li><a href="#main">Main</a></li>
     		<li><a href="#orders">Orders</a></li>
-    		<li><a href="#rooms">Bookings</a></li>
+    		<li><a href="#rooms">Rooms</a></li>
     		<li><a href="#customers">Customers</a></li>
   		</ul>
   		<section class="tabs-stage">
@@ -25,7 +25,6 @@
           <p class="main-revenue"></p>
     		</div>
         <div id="orders">
-      		  <ul class="orders-date-list"></ul>
             <h2 class="orders-services-text">Room Services: </h2>
             <p class="orders-services-food"></p>
             <h2 class="orders-services-customer"></h2>
@@ -35,12 +34,16 @@
         </div>
     		</div>
     		<div id="rooms">
-      		<ul class="rooms-date-list"></ul>
+          <h2 class="rooms-most-booked"></h2>
+          <p class="rooms-most-booked-date"></p>
+          <h2 class="rooms-least-booked"></h2>
+          <p class="rooms-least-booked-date"></p>
+          <h2 class="rooms-available-header"></h2>
+          <p class="rooms-available"></p>
     		</div>
     		<div id="customers">
           <h2 class="customer-search-header">Customer Search:</h2>
-          <ul class="customer-date-list"></ul>
-          <input class="customers-search">
+          <input class="customers-search" placeholder="Customer Name">
           <button class="customers-btn">Submit
           </button>
           <button class="customers-new-btn">New Customer
