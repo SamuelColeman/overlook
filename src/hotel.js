@@ -13,6 +13,8 @@ class Hotel {
 		this.occupiedPercentage = 0;
 		this.dailyRevenue = 0;
 		this.dateList = [];
+		this.dailyTotal = 0;
+		this.customerTotal = 0;
 	}
 
 	customerSearchDisplay() {
@@ -21,11 +23,6 @@ class Hotel {
 	 			 this.currentCustomer = customer;
     		$('.customers-name').text(`Overlook - ${customer.name}`)
 	 		}
-	    // if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
-	    // 	let $customerName = $(`<li></li>`).attr("id", "customer-list-element")
-	    // 	$customerName.text(customer.name)
-	    // 	$('#customer-list').append($customerName);
-	    // };
 	  })
 	}
 
@@ -33,8 +30,8 @@ class Hotel {
 		$('#customer-list').text('')
 		this.customersData.filter(customer => {
 		  if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
-		   let $customerName = $(`<li></li>`).attr("id", "customer-list-element")
-		   $customerName.text(customer.name)
+		   let $customerName = $(`<li></li>`).attr("id", "customer-list-element");
+		   $customerName.text(customer.name);
 		   $('#customer-list').append($customerName);
 		  }
 		})
@@ -68,17 +65,23 @@ class Hotel {
 	}
 
 	dailyRoomInfo() {
-		$('.orders-services-food').text('');
-		let currentServices = this.roomServicesData.filter(service => {
-	    return (service.date.includes(this.currentDate));
-	  })
-  	currentServices.map(service => {
-  		this.dailyRevenue += service.totalCost;
-  		$('.orders-services-text').text(`Room Services:`);
-  		$('.orders-services-food').append(`  ${service.food}:  $${service.totalCost}  `);
-  	})
-  	$('.main-revenue-header').text(`Daily Revenue:`);
-  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`);
+		if (this.currentCustomer.name === undefined) {
+			$('.orders-services-food').text('');
+			let currentServices = this.roomServicesData.filter(service => {
+		    return (service.date.includes(this.currentDate));
+		  })
+		  if (currentServices.length === 0) {
+	  		$('.orders-services-food').append(`None`);
+	  		$('.orders-services-food').css("color", "red");
+		  }
+	  	currentServices.map(service => {
+	  		this.dailyRevenue += service.totalCost;
+	  		$('.orders-services-food').append(`  ${service.food}  $${service.totalCost}  `);
+	  		$('.orders-services-food').css("color", "black");
+	  	})
+	  	$('.main-revenue-header').text(`Daily Revenue:`);
+	  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`);
+  	}
 	}
 
 	createDateList() {
@@ -98,6 +101,33 @@ class Hotel {
 	    $option.attr("value", date).text(date);
 	    $dateSelect.append($option);
   	})
+	}
+
+	appendUserRoomServices() {
+		this.dailyTotal = 0;
+		this.customerTotal = 0;
+		$('.orders-services-all').text('');
+		$('.orders-services-daily').text('');
+		$('.orders-services-food').css("color", "black");
+		if (this.currentCustomer.name !== undefined) {
+			$('.orders-services-food').text('');
+			let customerServices = this.roomServicesData.filter(service => {
+				if (service.userID === this.currentCustomer.id) {
+					return service
+				};
+			})
+			customerServices.map(service => {
+				this.customerTotal += service.totalCost;
+	  		$('.orders-services-food').append(`  ${service.date}: ${service.food} $${service.totalCost}  `);
+	  		if (service.date.includes(this.currentDate)) {
+	  			this.dailyTotal += service.totalCost;
+	  		} 
+	  	})
+	  	$('.orders-services-header').text('Customer All-Time Total: ')
+	  	$('.orders-services-all').append(`$${this.customerTotal.toFixed(2)}`);
+	  	$('.orders-services-customer').text('Daily Service Total: ')
+	  	$('.orders-services-daily').append(`$${this.dailyTotal}`);
+		}
 	}
 }
 

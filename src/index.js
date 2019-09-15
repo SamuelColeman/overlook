@@ -52,7 +52,7 @@ setTimeout(function() {
   hotel.dailyRoomInfo();
   hotel.createDateList();
   hotel.appendDateLists();
-}, 200)
+}, 300)
 
 $('.customers-search').keyup(() => {
   hotel.customerSearch();
@@ -60,6 +60,7 @@ $('.customers-search').keyup(() => {
 
 $('.customers-btn').click(() => {
   hotel.customerSearchDisplay();
+  hotel.appendUserRoomServices();
   customer = new Customer(hotel.currentCustomer);
 });
 
@@ -72,4 +73,5 @@ $('.main-date-list').change(() => {
   hotel.currentDate = $('#mySelect').val();
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
+  hotel.appendUserRoomServices();
 })
