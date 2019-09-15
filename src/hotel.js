@@ -68,12 +68,12 @@ class Hotel {
 	}
 
 	dailyRoomInfo() {
+		$('.orders-services-food').text('');
 		let currentServices = this.roomServicesData.filter(service => {
 	    return (service.date.includes(this.currentDate));
 	  })
   	currentServices.map(service => {
   		this.dailyRevenue += service.totalCost;
-  		$('.orders-date').text(`${this.currentDate}`);
   		$('.orders-services-text').text(`Room Services:`);
   		$('.orders-services-food').append(`  ${service.food}:  $${service.totalCost}  `);
   	})
@@ -90,9 +90,9 @@ class Hotel {
 		})
 	}
 
-	appendDateLists(element) {
+	appendDateLists() {
 	  let $dateSelect = $('<select></select>').attr("id", "mySelect");
-	  $(element).append($dateSelect);
+	  $('.main-date-list').append($dateSelect);
 	  this.dateList.forEach(date => {
 	    let $option = $('<option></option>');
 	    $option.attr("value", date).text(date);

@@ -51,9 +51,7 @@ setTimeout(function() {
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
   hotel.createDateList();
-  hotel.appendDateLists('.main-date-list');
-  hotel.appendDateLists('.orders-date-list');
-  hotel.appendDateLists('.rooms-date-list');
+  hotel.appendDateLists();
 }, 200)
 
 $('.customers-search').keyup(() => {
