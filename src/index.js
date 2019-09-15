@@ -56,8 +56,12 @@ setTimeout(function() {
   hotel.appendDateLists('.rooms-date-list');
 }, 200)
 
-$('.customers-btn').click(() => {
+$('.customers-search').keyup(() => {
   hotel.customerSearch();
+});
+
+$('.customers-btn').click(() => {
+  hotel.customerSearchDisplay();
   customer = new Customer(hotel.currentCustomer);
 });
 

@@ -50,3 +50,11 @@ a:hover {
   position: relative;
   top: -1px;
 }
+
+#customer-list {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  border: 1px solid black;
+  padding: 10px;
+}
