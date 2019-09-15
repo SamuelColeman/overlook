@@ -15,16 +15,30 @@ class Hotel {
 		this.dateList = [];
 	}
 
-	customerSearch() {
-	  let searchInput = $('.customers-search').val().toUpperCase();
-	  let searchName = this.customersData.filter(customer => {
-	    return (customer.name.toUpperCase().includes(searchInput));
+	customerSearchDisplay() {
+	 	this.customersData.filter(customer => {
+	 		if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
+	 			 this.currentCustomer = customer;
+    		$('.customers-name').text(`Overlook - ${customer.name}`)
+	 		}
+	    // if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
+	    // 	let $customerName = $(`<li></li>`).attr("id", "customer-list-element")
+	    // 	$customerName.text(customer.name)
+	    // 	$('#customer-list').append($customerName);
+	    // };
 	  })
-  	searchName.map(customer => {
-  		this.currentCustomer = customer;
-    	$('.customers-name').text(`Overlook - ${customer.name}`)
-  	})
 	}
+
+	customerSearch() {
+		$('#customer-list').text('')
+		this.customersData.filter(customer => {
+		  if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
+		   let $customerName = $(`<li></li>`).attr("id", "customer-list-element")
+		   $customerName.text(customer.name)
+		   $('#customer-list').append($customerName);
+		  }
+		})
+  }
 
 	addCustomer() {
 		this.currentCustomer = {id: this.customersData.length, name: $('.customers-search').val()};
@@ -32,6 +46,8 @@ class Hotel {
 	}
 
 	dailyBookings() {
+		$('.main-bookings-room').text('');
+		this.dailyRevenue = 0;
 		let currentBookings = this.bookingsData.filter(booking => {
 	    return (booking.date.includes(this.currentDate));
 	  })
@@ -52,12 +68,12 @@ class Hotel {
 	}
 
 	dailyRoomInfo() {
+		$('.orders-services-food').text('');
 		let currentServices = this.roomServicesData.filter(service => {
 	    return (service.date.includes(this.currentDate));
 	  })
   	currentServices.map(service => {
   		this.dailyRevenue += service.totalCost;
-  		$('.orders-date').text(`${this.currentDate}`);
   		$('.orders-services-text').text(`Room Services:`);
   		$('.orders-services-food').append(`  ${service.food}:  $${service.totalCost}  `);
   	})
@@ -74,9 +90,9 @@ class Hotel {
 		})
 	}
 
-	appendDateLists(element) {
+	appendDateLists() {
 	  let $dateSelect = $('<select></select>').attr("id", "mySelect");
-	  $(element).append($dateSelect);
+	  $('.main-date-list').append($dateSelect);
 	  this.dateList.forEach(date => {
 	    let $option = $('<option></option>');
 	    $option.attr("value", date).text(date);
