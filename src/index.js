@@ -51,8 +51,9 @@ setTimeout(function() {
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
   hotel.createDateList();
-  hotel.appendDateLists();
+  hotel.appendDateList();
   hotel.appendBookingInfo();
+  hotel.createRoomTypeList();
 }, 300)
 
 $('.customers-search').keyup(() => {
@@ -77,4 +78,13 @@ $('.main-date-list').change(() => {
   hotel.dailyRoomInfo();
   hotel.appendUserRoomServices();
   hotel.appendCustomerBooking();
+  hotel.appendBookingInfo();
+})
+
+$('.rooms-btn-book').click(() => {
+  hotel.appendRoomList();
+})
+
+$('#room-type-list').change(() => {
+  hotel.appendRoomList();
 })
