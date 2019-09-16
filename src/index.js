@@ -82,7 +82,7 @@ $('.main-date-list').change(() => {
 })
 
 $('.rooms-btn-book').click(() => {
-  hotel.appendRoomList();
+  hotel.appendRoomTypeList();
 })
 
 $('#room-type-list').change(() => {

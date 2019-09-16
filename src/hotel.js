@@ -195,17 +195,8 @@ class Hotel {
 		}
 	}
 
-	// addBooking() {
- //  	this.roomsData.filter(room => {
- //  	  if (!this.bookedRoomNumbers.includes(room.number)) {
- //  	  	let $roomAvailable = $(`<li></li>`).attr("id", "room-list-element");
-	// 	   	$roomAvailable.text(room.number);
-	// 	   	$('#room-available-list').append($roomAvailable);
- //  		}
- //  	})
-	// }
-
-	appendRoomList() {
+	appendRoomTypeList() {
+		$('#room-type-list').text('');
 		let $typeSelect = $(`<select></select>`).attr("id", "typeSelect")
 		$('#room-type-list').removeAttr('hidden').append($typeSelect);
 		this.roomTypes.forEach(type => {
@@ -213,14 +204,18 @@ class Hotel {
 			$roomType.attr('value', type).text(type);
 			$typeSelect.append($roomType)
 		})
+	}
+
+	appendRoomList() {
+		$('#room-available-list').text('');
 		let $roomSelect = $(`<select></select>`).attr("id", "roomSelect");
 		$('#room-available-list').removeAttr('hidden').append($roomSelect);
 		this.roomsData.filter(room => {
-  	  if (!this.bookedRoomNumbers.includes(room.number) && $($typeSelect.val() === room.roomType)) {
+  	  if (!this.bookedRoomNumbers.includes(room.number) && $('#typeSelect').val() === room.roomType) {
   	  	console.log(room.roomType)
   	  	let $room = $(`<option></option>`).attr("id", "room-element");
-				$room.attr('value', room).text(room.number);
-				$roomSelect.append($room)
+				$room.attr('value', room).text(`Room Number: ${room.number}, Bidet: ${room.bidet}, Number of Beds: ${room.numBeds}, Bed(s) Size: ${room.bedSize}, Cost Per Night: $${room.costPerNight}`);
+				$roomSelect.append($room);
   	  }
   	})
 	}
