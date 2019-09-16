@@ -20,6 +20,7 @@ class Hotel {
 		this.popularDate = '';
 		this.unpopularDate = '';
 		this.bookedRoomNumbers = [];
+		this.roomTypes = [];
 	}
 
 	customerSearchDisplay() {
@@ -108,7 +109,7 @@ class Hotel {
 		})
 	}
 
-	appendDateLists() {
+	appendDateList() {
 	  let $dateSelect = $('<select></select>').attr("id", "mySelect");
 	  $('.main-date-list').append($dateSelect);
 	  this.dateList.forEach(date => {
@@ -146,41 +147,91 @@ class Hotel {
 	}
 
 	appendBookingInfo() {
-		this.dateList.map(date => {
-			let dates = this.bookingsData.reduce((acc, booking) => {
-				if (date === booking.date) {
-					acc.push(date);
+		if (this.currentCustomer.name === undefined) {
+			this.dateList.map(date => {
+				let dates = this.bookingsData.reduce((acc, booking) => {
+					if (date === booking.date) {
+						acc.push(date);
+					}
+				return acc
+				}, [])
+				if (dates.length > this.maxDates) {
+					this.maxDates = dates.length;
+					this.popularDate = dates[0];
 				}
-			return acc
-			}, [])
-			if (dates.length > this.maxDates) {
-				this.maxDates = dates.length;
-				this.popularDate = dates[0];
-			}
-			if (dates.length < this.minDates) {
-				this.minDates = dates.length;
-				this.unpopularDate = dates[0];
-			}
-		})
-		$('.rooms-most-booked').text('Most Booked Date: ');
-		$('.rooms-most-booked-date').append(`${this.popularDate}: ${this.maxDates}`);
-		$('.rooms-least-booked').text('Least Booked Date: ');
-		$('.rooms-least-booked-date').append(`${this.unpopularDate}: ${this.minDates}`);
+				if (dates.length < this.minDates) {
+					this.minDates = dates.length;
+					this.unpopularDate = dates[0];
+				}
+			})
+			$('.rooms-most-booked').text('Most Booked Date: ');
+			$('.rooms-most-booked-date').append(`${this.popularDate}: ${this.maxDates}`);
+			$('.rooms-least-booked').text('Least Booked Date: ');
+			$('.rooms-least-booked-date').append(`${this.unpopularDate}: ${this.minDates}`);
+		}
 	}
 
 	appendCustomerBooking() {
-		$('.rooms-most-booked-date').text('');
-		$('.rooms-least-booked-date').text('');
-		this.bookingsData.filter(booking => {
-			if (booking.userID === this.currentCustomer.id) {
-				$('.rooms-least-booked').text('Booking History: ');
-				$('.rooms-least-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
+		if (this.currentCustomer.name !== undefined) {
+			$('.rooms-most-booked-date').text('');
+			$('.rooms-least-booked-date').text('');
+			this.bookingsData.filter(booking => {
+				if (booking.userID === this.currentCustomer.id) {
+					$('.rooms-least-booked').text('Booking History: ');
+					$('.rooms-least-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
+				}
+				$('.rooms-most-booked').text('Current Booking: ');
+				if (booking.userID === this.currentCustomer.id && booking.date === this.currentDate) {
+					$('.rooms-most-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
+				}
+			})
+			if ($('.rooms-most-booked-date').text() !== '') {
+				$('.rooms-btn-book').attr('hidden', true);
+				$('.rooms-btn-upgrade').removeAttr('hidden');
+			} else {
+				$('.rooms-btn-upgrade').attr('hidden', true);
+				$('.rooms-btn-book').removeAttr('hidden');
 			}
-			$('.rooms-most-booked').text('Current Booking: ');
-			if (booking.userID === this.currentCustomer.id && booking.date === this.currentDate) {
-				$('.rooms-most-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
-			}
+		}
+	}
+
+	// addBooking() {
+ //  	this.roomsData.filter(room => {
+ //  	  if (!this.bookedRoomNumbers.includes(room.number)) {
+ //  	  	let $roomAvailable = $(`<li></li>`).attr("id", "room-list-element");
+	// 	   	$roomAvailable.text(room.number);
+	// 	   	$('#room-available-list').append($roomAvailable);
+ //  		}
+ //  	})
+	// }
+
+	appendRoomList() {
+		let $typeSelect = $(`<select></select>`).attr("id", "typeSelect")
+		$('#room-type-list').removeAttr('hidden').append($typeSelect);
+		this.roomTypes.forEach(type => {
+			let $roomType = $(`<option></option>`).attr("id", "room-type-element");
+			$roomType.attr('value', type).text(type);
+			$typeSelect.append($roomType)
 		})
+		let $roomSelect = $(`<select></select>`).attr("id", "roomSelect");
+		$('#room-available-list').removeAttr('hidden').append($roomSelect);
+		this.roomsData.filter(room => {
+  	  if (!this.bookedRoomNumbers.includes(room.number) && $($typeSelect.val() === room.roomType)) {
+  	  	console.log(room.roomType)
+  	  	let $room = $(`<option></option>`).attr("id", "room-element");
+				$room.attr('value', room).text(room.number);
+				$roomSelect.append($room)
+  	  }
+  	})
+	}
+
+	createRoomTypeList() {
+		this.roomTypes = this.roomsData.reduce((acc, room) => {
+			if (!acc.includes(room.roomType)) {
+				acc.push(room.roomType)
+			}
+			return acc
+		},[])
 	}
 }
 
