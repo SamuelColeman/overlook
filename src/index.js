@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import './css/base.scss';
 import Hotel from './hotel';
-import Orders from './orders';
+import Bookings from './bookings';
 import Rooms from './rooms';
 import Customers from './customers';
 
-let hotel, customers;
+let hotel, customers, rooms;
 
 // import './images/turing-logo.png'
 $('.tabs-stage div').hide();
@@ -47,14 +47,15 @@ Promise.all([usersData, roomsData, bookingsData, roomServicesData]).then(functio
 });
 
 setTimeout(function() {
+  rooms = new Rooms(combinedData.roomsData.rooms);
   customers = new Customers(combinedData.usersData.users);
-  hotel = new Hotel(customers, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
+  hotel = new Hotel(customers, rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
   hotel.createDateList();
   hotel.appendDateList();
   hotel.appendBookingInfo();
-  hotel.createRoomTypeList();
+  rooms.createRoomTypeList();
 }, 300)
 
 $('.customers-search').keyup(() => {
@@ -81,9 +82,9 @@ $('.main-date-list').change(() => {
 })
 
 $('.rooms-btn-book').click(() => {
-  hotel.appendRoomTypeList();
+  rooms.appendRoomTypeList();
 })
 
 $('#room-type-list').change(() => {
-  hotel.appendRoomList();
+  rooms.appendRoomList();
 })
