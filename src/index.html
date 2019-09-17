@@ -41,19 +41,22 @@
           <h2 class="rooms-available-header"></h2>
           <p class="rooms-available"></p>
           <button class="rooms-btn-upgrade" hidden>Upgrade Room</button>
-          <button class="rooms-btn-book" hidden>Select Room</button>
+          <button class="rooms-btn-select" hidden>Select Room</button>
           <ul id="room-type-list" hidden>
           </ul>
           <ul id="room-available-list" hidden>
           </ul>
+          <button class="rooms-btn-book" hidden>Book Room</button>
     		</div>
     		<div id="customers">
           <h2 class="customer-search-header">Customer Search:</h2>
-          <input class="customers-search" placeholder="Customer Name">
-          <button class="customers-btn">Submit
-          </button>
-          <button class="customers-new-btn">New Customer
-          </button>
+          <form class = "customer-search-form">
+            <input class="customers-search" placeholder="Customer Name">
+            <button class="customers-btn" type="button">Submit
+            </button>
+            <button class="customers-new-btn" type="button">Add
+            </button>
+          </form>
           <ul id="customer-list">
           </ul>
     		</div>

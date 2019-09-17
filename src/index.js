@@ -7,7 +7,7 @@ import Customers from './customers';
 
 let hotel, customers, rooms;
 
-// import './images/turing-logo.png'
+// tab functionality
 $('.tabs-stage div').hide();
 $('.tabs-stage div:first').show();
 $('.tabs-nav li:first').addClass('tab-active');
@@ -20,6 +20,7 @@ $('.tabs-nav a').on('click', function(event){
   $($(this).attr('href')).show();
 });
 
+// fetch data
 let usersData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users').then(function(response){ 
          return response.json()
 });
@@ -58,6 +59,7 @@ setTimeout(function() {
   rooms.createRoomTypeList();
 }, 300)
 
+// event listeners on customer tab
 $('.customers-search').keyup(() => {
   customers.customerSearch();
 });
@@ -81,10 +83,20 @@ $('.main-date-list').change(() => {
   hotel.appendBookingInfo();
 })
 
-$('.rooms-btn-book').click(() => {
+$('.rooms-btn-select').click(() => {
   rooms.appendRoomTypeList();
 })
 
 $('#room-type-list').change(() => {
   rooms.appendRoomList();
+})
+
+$('#room-available-list').change(() => {
+  $('.rooms-btn-book').removeAttr("hidden");
+})
+
+$('.rooms-btn-book').click(() => {
+  hotel.bookRoom();
+  hotel.appendCustomerBooking();
+  hotel.dailyBookings()
 })

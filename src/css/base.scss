@@ -1,5 +1,6 @@
 body {
   font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+  background-color: #c9af98;
 }
 .tabs-main {
 }
@@ -25,7 +26,7 @@ ul {
 a {
   background: #eaeaed;
   border: 1px solid #cecfd5;
-  color: #0087cc;
+  color: #3a4660;
   display: block;
   font-weight: 600;
   padding: 10px 0;
@@ -33,12 +34,12 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #ff7b29;
+  color: green;
 }
 .tab-active a {
-  background: #fff;
+  background: #FFFDD0;
   border-bottom-color: transparent;
-  color: #2db34a;
+  color: green;
   cursor: default;
 }
 .tabs-stage {
@@ -49,14 +50,90 @@ a:hover {
   padding: 24px 30px;
   position: relative;
   top: -1px;
+  background-color: #FFFDD0;
 }
 
-#customer-list,
-#room-available-list,
-#room-type-list {
+#customer-list {
   display: flex;
   flex-direction: column;
   width: 25%;
   padding: 10px;
+  max-height: 20vh;
+  overflow: scroll;
+  padding: 0;
 }
 
+.rooms-available {
+ display: table-caption;
+ width: 25vh;
+ height: 12vh;
+ overflow: scroll;
+}
+
+#customer-list-element {
+  border: 1px solid #c9af98;
+  background-color: white;
+  color: #3a4660;
+  height: 3vh;
+  font-size: 20px;
+}
+
+.customers-name {
+  color: #3a4660;
+  display: flex;
+  justify-content: center;
+  font-size: 55px;
+}
+
+#mySelect {
+  background-color: #c9af98;
+  border: 1px solid #3a4660;
+  width:15vh;
+  font-size: 18px;
+  color: #3a4660;
+}
+
+main {
+  color: #3a4660;
+}
+
+p {
+  font-size: 20px;
+}
+
+.rooms-least-booked-date {
+  width: 25vh;
+  overflow: scroll;
+  max-height: 20vh;
+}
+
+input {
+  width: 20%;
+  height: 3vh;
+  font-size: 20px;
+  color: #3a4660;
+}
+
+button {
+  width: 14%;
+  font-size: 20px;
+  color: #3a4660;
+  background: #eaeaed;
+}
+
+#typeSelect, 
+#roomSelect {
+  background-color: #FFFDD0;
+  border: 1px solid #3a4660;
+  width: 25vh;
+  font-size: 18px;
+  color: #3a4660;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.customer-search-form {
+  margin-top: 20px;
+}

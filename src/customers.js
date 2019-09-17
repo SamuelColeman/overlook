@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import domUpdates from "./domUpdates";
 
 class Customers {
 	constructor(data) {
