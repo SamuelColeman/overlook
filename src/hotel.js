@@ -2,28 +2,26 @@ import $ from 'jquery';
 import domUpdates from "./domUpdates";
 
 class Hotel {
-	constructor(customers, roomsData, bookingsData, roomServicesData) {
+	constructor(customers, rooms, bookingsData, roomServicesData) {
 		this.customers = customers;
-		this.roomsData = roomsData;
+		this.rooms = rooms;
 		this.bookingsData = bookingsData;
 		this.roomServicesData = roomServicesData;
 		this.currentDate = "2019/10/31";
-		this.availableRooms = 0;
-		this.occupiedPercentage = 0;
-		this.dailyRevenue = 0;
 		this.dateList = [];
+		this.dailyRevenue = 0;
 		this.dailyTotal = 0;
 		this.customerTotal = 0;
 		this.maxDates = 0;
 		this.minDates = 100;
 		this.popularDate = '';
 		this.unpopularDate = '';
-		this.bookedRoomNumbers = [];
-		this.roomTypes = [];
+		this.availableRooms = 0;
+		this.occupiedPercentage = 0;
 	}
 
 	dailyBookings() {
-		this.bookedRoomNumbers = [];
+		this.rooms.bookedRoomNumbers = [];
 		$('.main-bookings-room').text('');
 		$('.rooms-available').text('');
 		this.dailyRevenue = 0;
@@ -33,20 +31,20 @@ class Hotel {
 	  this.availableRooms = 50 - currentBookings.length;
 	  this.occupiedPercentage = (currentBookings.length / 50) * 100; 
   	currentBookings.map(booking => { 
-  		this.bookedRoomNumbers.push(booking.roomNumber);
+  		this.rooms.bookedRoomNumbers.push(booking.roomNumber);
   		$('.main-bookings-text').text(`Rooms Booked:`);
   		$('.main-bookings-percent').text(`${this.occupiedPercentage}%`);
   		$('.main-bookings-room').append(`  ${booking.roomNumber}  `);
   		$('.main-bookings-header').text(`Rooms Available:`);
   		$('.main-bookings-available').text(`${this.availableRooms}`);
-  		this.roomsData.filter(room => {
+  		this.rooms.data.filter(room => {
   			if (room.number === booking.roomNumber) {
   				this.dailyRevenue += room.costPerNight
   			}
   		})
   	})
-  	this.roomsData.filter(room => {
-  	  if (!this.bookedRoomNumbers.includes(room.number)) {
+  	this.rooms.data.filter(room => {
+  	  if (!this.rooms.bookedRoomNumbers.includes(room.number)) {
   	  	$('.rooms-available-header').text('Rooms Available: ');
   	  	$('.rooms-available').append(`  ${room.number}  `);
   		}
@@ -121,6 +119,8 @@ class Hotel {
 
 	appendBookingInfo() {
 		if (this.customers.currentCustomer.name === undefined) {
+			$('.rooms-most-booked-date').text('');
+			$('.rooms-least-booked-date').text('');
 			this.dateList.map(date => {
 				let dates = this.bookingsData.reduce((acc, booking) => {
 					if (date === booking.date) {
@@ -166,39 +166,6 @@ class Hotel {
 				$('.rooms-btn-book').removeAttr('hidden');
 			}
 		}
-	}
-
-	appendRoomTypeList() {
-		$('#room-type-list').text('');
-		let $typeSelect = $(`<select></select>`).attr("id", "typeSelect")
-		$('#room-type-list').removeAttr('hidden').append($typeSelect);
-		this.roomTypes.forEach(type => {
-			let $roomType = $(`<option></option>`).attr("id", "room-type-element");
-			$roomType.attr('value', type).text(type);
-			$typeSelect.append($roomType)
-		})
-	}
-
-	appendRoomList() {
-		$('#room-available-list').text('');
-		let $roomSelect = $(`<select></select>`).attr("id", "roomSelect");
-		$('#room-available-list').removeAttr('hidden').append($roomSelect);
-		this.roomsData.filter(room => {
-  	  if (!this.bookedRoomNumbers.includes(room.number) && $('#typeSelect').val() === room.roomType) {
-  	  	let $room = $(`<option></option>`).attr("id", "room-element");
-				$room.attr('value', room).text(`Room Number: ${room.number}, Bidet: ${room.bidet}, Number of Beds: ${room.numBeds}, Bed(s) Size: ${room.bedSize}, Cost Per Night: $${room.costPerNight}`);
-				$roomSelect.append($room);
-  	  }
-  	})
-	}
-
-	createRoomTypeList() {
-		this.roomTypes = this.roomsData.reduce((acc, room) => {
-			if (!acc.includes(room.roomType)) {
-				acc.push(room.roomType)
-			}
-			return acc
-		},[])
 	}
 }
 
