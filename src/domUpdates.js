@@ -2,10 +2,7 @@ import $ from 'jquery';
 
 export default {
 
-	appendUserInfo(customer) {
-		$('.customers-name').text(`Overlook - ${customer.name}`)
-	},
-
+// methods invoked in hotel
 	clearDailyBookings() {
 		$('.main-revenue').text('');
 		$('.main-bookings-room').text('');
@@ -94,5 +91,27 @@ export default {
 		$('#typeSelect').attr('hidden', true);
 		$('#roomSelect').attr('hidden', true);
 		$('.rooms-btn-book').attr('hidden', true);
+	},
+
+// methods invoked in customer
+	clearCustomerList() {
+		$('#customer-list').text('');
+	},
+
+	appendCustomerName(customer) {
+		$('.customers-name').text(`Overlook - ${customer.name}`)
+	},
+
+	appendUserInfo(customer) {
+		$('.customers-name').text(`Overlook - ${customer.name}`)
+	},
+
+// methods invoked in rooms
+	clearAvailableList() {
+		$('#room-available-list').text('');
+	},
+
+	clearTypeList() {
+		$('#room-type-list').text('');
 	}
 }

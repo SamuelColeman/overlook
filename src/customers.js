@@ -10,14 +10,14 @@ class Customers {
 	customerSearchDisplay() {
 	 	this.data.filter(customer => {
 	 		if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
-	 			 this.currentCustomer = customer;
-    		$('.customers-name').text(`Overlook - ${customer.name}`)
+	 			this.currentCustomer = customer;
+    		domUpdates.appendCustomerName(customer);
 	 		}
 	  })
 	}
 
 	customerSearch() {
-		$('#customer-list').text('')
+		domUpdates.clearCustomerList();
 		this.data.filter(customer => {
 		  if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
 		   let $customerName = $(`<li></li>`).attr("id", "customer-list-element");
