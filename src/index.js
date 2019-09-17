@@ -3,9 +3,9 @@ import './css/base.scss';
 import Hotel from './hotel';
 import Orders from './orders';
 import Rooms from './rooms';
-import Customer from './customer';
+import Customers from './customers';
 
-let hotel, customer;
+let hotel, customers;
 
 // import './images/turing-logo.png'
 $('.tabs-stage div').hide();
@@ -47,7 +47,8 @@ Promise.all([usersData, roomsData, bookingsData, roomServicesData]).then(functio
 });
 
 setTimeout(function() {
-  hotel = new Hotel(combinedData.usersData.users, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
+  customers = new Customers(combinedData.usersData.users);
+  hotel = new Hotel(customers, combinedData.roomsData.rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
   hotel.dailyBookings();
   hotel.dailyRoomInfo();
   hotel.createDateList();
@@ -57,19 +58,17 @@ setTimeout(function() {
 }, 300)
 
 $('.customers-search').keyup(() => {
-  hotel.customerSearch();
+  customers.customerSearch();
 });
 
 $('.customers-btn').click(() => {
-  hotel.customerSearchDisplay();
+  customers.customerSearchDisplay();
   hotel.appendUserRoomServices();
   hotel.appendCustomerBooking();
-  customer = new Customer(hotel.currentCustomer);
 });
 
 $('.customers-new-btn').click(() => {
-  hotel.addCustomer();
-  customer = new Customer(hotel.currentCustomer);
+  customers.addCustomer();
 });
 
 $('.main-date-list').change(() => {

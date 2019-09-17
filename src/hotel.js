@@ -2,12 +2,11 @@ import $ from 'jquery';
 import domUpdates from "./domUpdates";
 
 class Hotel {
-	constructor(customersData, roomsData, bookingsData, roomServicesData) {
-		this.customersData = customersData;
+	constructor(customers, roomsData, bookingsData, roomServicesData) {
+		this.customers = customers;
 		this.roomsData = roomsData;
 		this.bookingsData = bookingsData;
 		this.roomServicesData = roomServicesData;
-		this.currentCustomer = {};
 		this.currentDate = "2019/10/31";
 		this.availableRooms = 0;
 		this.occupiedPercentage = 0;
@@ -21,32 +20,6 @@ class Hotel {
 		this.unpopularDate = '';
 		this.bookedRoomNumbers = [];
 		this.roomTypes = [];
-	}
-
-	customerSearchDisplay() {
-	 	this.customersData.filter(customer => {
-	 		if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
-	 			 this.currentCustomer = customer;
-    		$('.customers-name').text(`Overlook - ${customer.name}`)
-	 		}
-	  })
-	}
-
-	customerSearch() {
-		$('#customer-list').text('')
-		this.customersData.filter(customer => {
-		  if (customer.name.toUpperCase().includes($('.customers-search').val().toUpperCase())) {
-		   let $customerName = $(`<li></li>`).attr("id", "customer-list-element");
-		   $customerName.text(customer.name);
-		   $('#customer-list').append($customerName);
-		  }
-		})
-  }
-
-	addCustomer() {
-		this.currentCustomer = {id: this.customersData.length + 1, name: $('.customers-search').val()};
-		this.customersData.push(this.currentCustomer);
-		domUpdates.appendUserInfo(this.currentCustomer);
 	}
 
 	dailyBookings() {
@@ -81,7 +54,7 @@ class Hotel {
 	}
 
 	dailyRoomInfo() {
-		if (this.currentCustomer.name === undefined) {
+		if (this.customers.currentCustomer.name === undefined) {
 			$('.orders-services-food').text('');
 			let currentServices = this.roomServicesData.filter(service => {
 		    return (service.date.includes(this.currentDate));
@@ -125,10 +98,10 @@ class Hotel {
 		$('.orders-services-all').text('');
 		$('.orders-services-daily').text('');
 		$('.orders-services-food').css("color", "black");
-		if (this.currentCustomer.name !== undefined) {
+		if (this.customers.currentCustomer.name !== undefined) {
 			$('.orders-services-food').text('');
 			let customerServices = this.roomServicesData.filter(service => {
-				if (service.userID === this.currentCustomer.id) {
+				if (service.userID === this.customers.currentCustomer.id) {
 					return service
 				};
 			})
@@ -147,7 +120,7 @@ class Hotel {
 	}
 
 	appendBookingInfo() {
-		if (this.currentCustomer.name === undefined) {
+		if (this.customers.currentCustomer.name === undefined) {
 			this.dateList.map(date => {
 				let dates = this.bookingsData.reduce((acc, booking) => {
 					if (date === booking.date) {
@@ -172,16 +145,16 @@ class Hotel {
 	}
 
 	appendCustomerBooking() {
-		if (this.currentCustomer.name !== undefined) {
+		if (this.customers.currentCustomer.name !== undefined) {
 			$('.rooms-most-booked-date').text('');
 			$('.rooms-least-booked-date').text('');
 			this.bookingsData.filter(booking => {
-				if (booking.userID === this.currentCustomer.id) {
+				if (booking.userID === this.customers.currentCustomer.id) {
 					$('.rooms-least-booked').text('Booking History: ');
 					$('.rooms-least-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
 				}
 				$('.rooms-most-booked').text('Current Booking: ');
-				if (booking.userID === this.currentCustomer.id && booking.date === this.currentDate) {
+				if (booking.userID === this.customers.currentCustomer.id && booking.date === this.currentDate) {
 					$('.rooms-most-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
 				}
 			})
@@ -212,7 +185,6 @@ class Hotel {
 		$('#room-available-list').removeAttr('hidden').append($roomSelect);
 		this.roomsData.filter(room => {
   	  if (!this.bookedRoomNumbers.includes(room.number) && $('#typeSelect').val() === room.roomType) {
-  	  	console.log(room.roomType)
   	  	let $room = $(`<option></option>`).attr("id", "room-element");
 				$room.attr('value', room).text(`Room Number: ${room.number}, Bidet: ${room.bidet}, Number of Beds: ${room.numBeds}, Bed(s) Size: ${room.bedSize}, Cost Per Night: $${room.costPerNight}`);
 				$roomSelect.append($room);
