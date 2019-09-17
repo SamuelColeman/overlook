@@ -21,6 +21,7 @@ class Hotel {
 	}
 
 	dailyBookings() {
+		$('.main-revenue').text('');
 		this.rooms.bookedRoomNumbers = [];
 		$('.main-bookings-room').text('');
 		$('.rooms-available').text('');
@@ -49,6 +50,7 @@ class Hotel {
   	  	$('.rooms-available').append(`  ${room.number}  `);
   		}
   	})
+  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`)
 	}
 
 	dailyRoomInfo() {
@@ -59,12 +61,10 @@ class Hotel {
 		  })
 		  if (currentServices.length === 0) {
 	  		$('.orders-services-food').append(`None`);
-	  		$('.orders-services-food').css("color", "red");
 		  }
 	  	currentServices.map(service => {
 	  		this.dailyRevenue += service.totalCost;
 	  		$('.orders-services-food').append(`  ${service.food}  $${service.totalCost}  `);
-	  		$('.orders-services-food').css("color", "black");
 	  	})
 	  	$('.main-revenue-header').text(`Daily Revenue:`);
 	  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`);
@@ -95,7 +95,6 @@ class Hotel {
 		this.customerTotal = 0;
 		$('.orders-services-all').text('');
 		$('.orders-services-daily').text('');
-		$('.orders-services-food').css("color", "black");
 		if (this.customers.currentCustomer.name !== undefined) {
 			$('.orders-services-food').text('');
 			let customerServices = this.roomServicesData.filter(service => {
@@ -147,7 +146,7 @@ class Hotel {
 	appendCustomerBooking() {
 		if (this.customers.currentCustomer.name !== undefined) {
 			$('.rooms-most-booked-date').text('');
-			$('.rooms-least-booked-date').text('');
+			$('.rooms-least-booked-date').text('').attr('display', 'table-caption')
 			this.bookingsData.filter(booking => {
 				if (booking.userID === this.customers.currentCustomer.id) {
 					$('.rooms-least-booked').text('Booking History: ');
@@ -159,13 +158,24 @@ class Hotel {
 				}
 			})
 			if ($('.rooms-most-booked-date').text() !== '') {
-				$('.rooms-btn-book').attr('hidden', true);
+				$('.rooms-btn-select').attr('hidden', true);
 				$('.rooms-btn-upgrade').removeAttr('hidden');
 			} else {
 				$('.rooms-btn-upgrade').attr('hidden', true);
-				$('.rooms-btn-book').removeAttr('hidden');
+				$('.rooms-btn-select').removeAttr('hidden');
 			}
 		}
+	}
+
+	bookRoom() {
+		$('#typeSelect').attr('hidden', true);
+		$('#roomSelect').attr('hidden', true);
+		$('.rooms-btn-book').attr('hidden', true);
+		let selectedRoom = this.rooms.data.filter(room => {
+			if (room.number === parseInt($('#roomSelect').val())) {
+				this.bookingsData.push({userID: this.customers.currentCustomer.id, date: this.currentDate, roomNumber: room.number});
+			};
+		})
 	}
 }
 

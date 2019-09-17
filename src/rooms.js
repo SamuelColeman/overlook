@@ -14,7 +14,7 @@ class Rooms {
 		this.data.filter(room => {
   	  if (!this.bookedRoomNumbers.includes(room.number) && $('#typeSelect').val() === room.roomType) {
   	  	let $room = $(`<option></option>`).attr("id", "room-element");
-				$room.attr('value', room).text(`Room Number: ${room.number}, Bidet: ${room.bidet}, Number of Beds: ${room.numBeds}, Bed(s) Size: ${room.bedSize}, Cost Per Night: $${room.costPerNight}`);
+				$room.attr('value', room.number).text(`Room Number: ${room.number}, Bidet: ${room.bidet}, Number of Beds: ${room.numBeds}, Bed(s) Size: ${room.bedSize}, Cost Per Night: $${room.costPerNight}`);
 				$roomSelect.append($room);
   	  }
   	})
