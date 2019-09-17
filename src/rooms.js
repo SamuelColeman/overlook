@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import domUpdates from "./domUpdates";
 
 class Rooms {
 	constructor(data) {
@@ -8,7 +9,7 @@ class Rooms {
 	}
 
 	appendRoomList() {
-		$('#room-available-list').text('');
+		domUpdates.clearAvailableList();
 		let $roomSelect = $(`<select></select>`).attr("id", "roomSelect");
 		$('#room-available-list').removeAttr('hidden').append($roomSelect);
 		this.data.filter(room => {
@@ -21,7 +22,7 @@ class Rooms {
 	}
 
 	appendRoomTypeList() {
-		$('#room-type-list').text('');
+		domUpdates.clearTypeList();
 		let $typeSelect = $(`<select></select>`).attr("id", "typeSelect")
 		$('#room-type-list').removeAttr('hidden').append($typeSelect);
 		this.roomTypes.forEach(type => {
