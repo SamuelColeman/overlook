@@ -20,11 +20,9 @@ class Hotel {
 		this.occupiedPercentage = 0;
 	}
 
-	dailyBookings() {
-		$('.main-revenue').text('');
+	calculateDailyBookings() {
+		domUpdates.clearDailyBookings();
 		this.rooms.bookedRoomNumbers = [];
-		$('.main-bookings-room').text('');
-		$('.rooms-available').text('');
 		this.dailyRevenue = 0;
 		let currentBookings = this.bookingsData.filter(booking => {
 	    return (booking.date.includes(this.currentDate));
@@ -33,11 +31,7 @@ class Hotel {
 	  this.occupiedPercentage = (currentBookings.length / 50) * 100; 
   	currentBookings.map(booking => { 
   		this.rooms.bookedRoomNumbers.push(booking.roomNumber);
-  		$('.main-bookings-text').text(`Rooms Booked:`);
-  		$('.main-bookings-percent').text(`${this.occupiedPercentage}%`);
-  		$('.main-bookings-room').append(`  ${booking.roomNumber}  `);
-  		$('.main-bookings-header').text(`Rooms Available:`);
-  		$('.main-bookings-available').text(`${this.availableRooms}`);
+  		domUpdates.appendDailyBookings(booking, this.occupiedPercentage, this.availableRooms)
   		this.rooms.data.filter(room => {
   			if (room.number === booking.roomNumber) {
   				this.dailyRevenue += room.costPerNight
@@ -46,28 +40,26 @@ class Hotel {
   	})
   	this.rooms.data.filter(room => {
   	  if (!this.rooms.bookedRoomNumbers.includes(room.number)) {
-  	  	$('.rooms-available-header').text('Rooms Available: ');
-  	  	$('.rooms-available').append(`  ${room.number}  `);
+ 				domUpdates.appendAvailableRooms(room);
   		}
   	})
-  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`)
+  	domUpdates.appendDailyRevenue(this.dailyRevenue);
 	}
 
-	dailyRoomInfo() {
+	calculateDailyServices() {
 		if (this.customers.currentCustomer.name === undefined) {
-			$('.orders-services-food').text('');
+			domUpdates.clearDailyServices();
 			let currentServices = this.roomServicesData.filter(service => {
 		    return (service.date.includes(this.currentDate));
 		  })
 		  if (currentServices.length === 0) {
-	  		$('.orders-services-food').append(`None`);
+	  		domUpdates.appendEmptyServices();
 		  }
 	  	currentServices.map(service => {
 	  		this.dailyRevenue += service.totalCost;
-	  		$('.orders-services-food').append(`  ${service.food}  $${service.totalCost}  `);
+	  		domUpdates.appendDailyServices(service);
 	  	})
-	  	$('.main-revenue-header').text(`Daily Revenue:`);
-	  	$('.main-revenue').text(`$${this.dailyRevenue.toFixed(2)}`);
+	  	domUpdates.appendDailyRevenue(this.dailyRevenue);
   	}
 	}
 
@@ -93,10 +85,9 @@ class Hotel {
 	appendUserRoomServices() {
 		this.dailyTotal = 0;
 		this.customerTotal = 0;
-		$('.orders-services-all').text('');
-		$('.orders-services-daily').text('');
+		domUpdates.clearCustomerServices();
 		if (this.customers.currentCustomer.name !== undefined) {
-			$('.orders-services-food').text('');
+			domUpdates.clearDailyServices();
 			let customerServices = this.roomServicesData.filter(service => {
 				if (service.userID === this.customers.currentCustomer.id) {
 					return service
@@ -104,22 +95,18 @@ class Hotel {
 			})
 			customerServices.map(service => {
 				this.customerTotal += service.totalCost;
-	  		$('.orders-services-food').append(`  ${service.date}: ${service.food} $${service.totalCost}  `);
+	  		domUpdates.appendDailyServices(service)
 	  		if (service.date.includes(this.currentDate)) {
 	  			this.dailyTotal += service.totalCost;
 	  		} 
 	  	})
-	  	$('.orders-services-header').text('Customer All-Time Total: ')
-	  	$('.orders-services-all').append(`$${this.customerTotal.toFixed(2)}`);
-	  	$('.orders-services-customer').text('Daily Service Total: ')
-	  	$('.orders-services-daily').append(`$${this.dailyTotal}`);
+			domUpdates.appendServicesCost(this.customerTotal, this.dailyTotal)
 		}
 	}
 
 	appendBookingInfo() {
 		if (this.customers.currentCustomer.name === undefined) {
-			$('.rooms-most-booked-date').text('');
-			$('.rooms-least-booked-date').text('');
+			domUpdates.clearBookings();
 			this.dateList.map(date => {
 				let dates = this.bookingsData.reduce((acc, booking) => {
 					if (date === booking.date) {
@@ -136,41 +123,32 @@ class Hotel {
 					this.unpopularDate = dates[0];
 				}
 			})
-			$('.rooms-most-booked').text('Most Booked Date: ');
-			$('.rooms-most-booked-date').append(`${this.popularDate}: ${this.maxDates}`);
-			$('.rooms-least-booked').text('Least Booked Date: ');
-			$('.rooms-least-booked-date').append(`${this.unpopularDate}: ${this.minDates}`);
+			domUpdates.appendBookings(this.popularDate, this.maxDates, this.unpopularDate, this.minDates)
 		}
 	}
 
 	appendCustomerBooking() {
 		if (this.customers.currentCustomer.name !== undefined) {
-			$('.rooms-most-booked-date').text('');
-			$('.rooms-least-booked-date').text('').attr('display', 'table-caption')
+			domUpdates.clearBookings();
+			domUpdates.addBookingAttribute();
 			this.bookingsData.filter(booking => {
 				if (booking.userID === this.customers.currentCustomer.id) {
-					$('.rooms-least-booked').text('Booking History: ');
-					$('.rooms-least-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
+					domUpdates.appendBookingHistory(booking);
 				}
-				$('.rooms-most-booked').text('Current Booking: ');
 				if (booking.userID === this.customers.currentCustomer.id && booking.date === this.currentDate) {
-					$('.rooms-most-booked-date').append(`  ${booking.date}: Room ${booking.roomNumber}  `);
+					domUpdates.appendCurrentBooking(booking);
 				}
 			})
 			if ($('.rooms-most-booked-date').text() !== '') {
-				$('.rooms-btn-select').attr('hidden', true);
-				$('.rooms-btn-upgrade').removeAttr('hidden');
+				domUpdates.showSelectButton();
 			} else {
-				$('.rooms-btn-upgrade').attr('hidden', true);
-				$('.rooms-btn-select').removeAttr('hidden');
+				domUpdates.showUpgradeButton();
 			}
 		}
 	}
 
 	bookRoom() {
-		$('#typeSelect').attr('hidden', true);
-		$('#roomSelect').attr('hidden', true);
-		$('.rooms-btn-book').attr('hidden', true);
+		domUpdates.hideRoomSelection();
 		let selectedRoom = this.rooms.data.filter(room => {
 			if (room.number === parseInt($('#roomSelect').val())) {
 				this.bookingsData.push({userID: this.customers.currentCustomer.id, date: this.currentDate, roomNumber: room.number});

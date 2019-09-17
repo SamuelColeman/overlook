@@ -1,7 +1,7 @@
 import $ from 'jquery';
+import domUpdates from "./domUpdates";
 import './css/base.scss';
 import Hotel from './hotel';
-import Bookings from './bookings';
 import Rooms from './rooms';
 import Customers from './customers';
 
@@ -51,8 +51,8 @@ setTimeout(function() {
   rooms = new Rooms(combinedData.roomsData.rooms);
   customers = new Customers(combinedData.usersData.users);
   hotel = new Hotel(customers, rooms, combinedData.bookingsData.bookings, combinedData.roomServicesData.roomServices);
-  hotel.dailyBookings();
-  hotel.dailyRoomInfo();
+  hotel.calculateDailyBookings();
+  hotel.calculateDailyServices();
   hotel.createDateList();
   hotel.appendDateList();
   hotel.appendBookingInfo();
@@ -76,8 +76,8 @@ $('.customers-new-btn').click(() => {
 
 $('.main-date-list').change(() => {
   hotel.currentDate = $('#mySelect').val();
-  hotel.dailyBookings();
-  hotel.dailyRoomInfo();
+  hotel.calculateDailyBookings();
+  hotel.calculateDailyServices();
   hotel.appendUserRoomServices();
   hotel.appendCustomerBooking();
   hotel.appendBookingInfo();
@@ -98,5 +98,5 @@ $('#room-available-list').change(() => {
 $('.rooms-btn-book').click(() => {
   hotel.bookRoom();
   hotel.appendCustomerBooking();
-  hotel.dailyBookings()
+  hotel.calculateDailyBookings()
 })
