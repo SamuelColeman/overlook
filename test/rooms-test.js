@@ -21,4 +21,18 @@ describe('Rooms', function () {
     expect(Rooms).to.be.a('function');
   })
 
+ 	it('should be able to append the room list', () => {
+ 		rooms.appendRoomList();
+ 		 expect(domUpdates.clearAvailableList).to.have.been.called(1);
+ 	})
+
+ 	it('should be able to append the room type list', () => {
+ 		rooms.appendRoomTypeList();
+ 		 expect(domUpdates.clearTypeList).to.have.been.called(1);
+ 	})
+
+ 	it('should be able to create the room type list', () => {
+ 		rooms.createRoomTypeList();
+ 		 expect(rooms.roomTypes.length).to.equal(4);
+ 	})
 });
