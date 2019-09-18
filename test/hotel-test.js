@@ -71,8 +71,8 @@ describe('Hotel', function () {
 
   it('should be able to append customer booking information', () => {
     hotel.appendBookingInfo();
-    expect(domUpdates.clearBookings).to.have.been.called(1);
-    expect(domUpdates.addBookingAttribute).to.have.been.called(1);
+    expect(domUpdates.clearBookings).to.have.been.called(2);
+    expect(domUpdates.appendBookings).to.have.been.called(2);
   })
 
   it('should be able to book room', () => {

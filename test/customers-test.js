@@ -1,8 +1,5 @@
 import chai from 'chai';
 import Customers from '../src/customers';
-import BookingsData from './bookings-data.js';
-import CustomerserviceData from './customerservice-data.js';
-import RoomsData from './rooms-data.js';
 import CustomersData from './customers-data.js';
 import domUpdates from '../src/domUpdates.js';
 const expect = chai.expect;
@@ -21,4 +18,14 @@ describe('Customers', function () {
     expect(Customers).to.be.a('function');
   })
 
+  it('should be able to search for a customer', () => {
+ 		customers.customerSearch();
+ 		 expect(domUpdates.clearCustomerList).to.have.been.called(1);
+ 	})
+
+ 	it('should be able to add a customer', () => {
+ 		customers.addCustomer();
+ 		expect(domUpdates.appendUserInfo).to.have.been.called(1);
+ 		expect(customers.currentCustomer).to.equal({});
+ 	})
 });
