@@ -1,8 +1,6 @@
 body {
   font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
-  background-color: #c9af98;
-}
-.tabs-main {
+  background-color: #559988;
 }
 
 ul {
@@ -13,35 +11,42 @@ ul {
   µmargin: 0;
   padding: 0;
 }
+
 .tabs-nav li {
   width: 50%;
 }
+
 .tabs-nav li:first-child a {
   border-right: 0;
   border-top-left-radius: 6px;
 }
+
 .tabs-nav li:last-child a {
   border-top-right-radius: 6px;
 }
+
 a {
-  background: #eaeaed;
+  background: #CCDDDD;
   border: 1px solid #cecfd5;
-  color: #3a4660;
+  color: black;
   display: block;
   font-weight: 600;
   padding: 10px 0;
   text-align: center;
   text-decoration: none;
 }
+
 a:hover {
-  color: green;
+  color: #559988;
 }
+
 .tab-active a {
-  background: #FFFDD0;
+  background: #808080;
   border-bottom-color: transparent;
-  color: green;
+  color: #CCDDDD;
   cursor: default;
 }
+
 .tabs-stage {
   border: 1px solid #cecfd5;
   border-radius: 0 0 6px 6px;
@@ -50,7 +55,7 @@ a:hover {
   padding: 24px 30px;
   position: relative;
   top: -1px;
-  background-color: #FFFDD0;
+  background-color: #808080;
 }
 
 #customer-list {
@@ -71,30 +76,30 @@ a:hover {
 }
 
 #customer-list-element {
-  border: 1px solid #c9af98;
+  border: 1px solid #559988;
   background-color: white;
-  color: #3a4660;
+  color: black;
   height: 3vh;
   font-size: 20px;
 }
 
 .customers-name {
-  color: #3a4660;
+  color: black;
   display: flex;
   justify-content: center;
   font-size: 55px;
 }
 
 #mySelect {
-  background-color: #c9af98;
-  border: 1px solid #3a4660;
+  background-color: #559988;
+  border: 1px solid black;
   width:15vh;
   font-size: 18px;
-  color: #3a4660;
+  color: black;
 }
 
 main {
-  color: #3a4660;
+  color: black;
 }
 
 p {
@@ -111,23 +116,23 @@ input {
   width: 20%;
   height: 3vh;
   font-size: 20px;
-  color: #3a4660;
+  color: black;
 }
 
 button {
   width: 14%;
   font-size: 20px;
-  color: #3a4660;
+  color: black;
   background: #eaeaed;
 }
 
 #typeSelect, 
 #roomSelect {
-  background-color: #FFFDD0;
-  border: 1px solid #3a4660;
+  background-color: #808080;
+  border: 1px solid black;
   width: 25vh;
   font-size: 18px;
-  color: #3a4660;
+  color: black;
 }
 
 h2 {

@@ -63,9 +63,20 @@ describe('Hotel', function () {
   	hotel.appendBookingInfo();
    	expect(domUpdates.clearBookings).to.have.been.called(1);
   	expect(domUpdates.appendBookings).to.have.been.called(1);
-  	expect(hotel.popularDate).to.equal('');
-  	expect(hotel.unpopularDate).to.equal('');
-  	expect(hotel.maxDates).to.equal(0);
-  	expect(hotel.minDates).to.equal(100);
+  	expect(hotel.popularDate).to.equal('2019/10/28');
+  	expect(hotel.unpopularDate).to.equal('2019/07/23');
+  	expect(hotel.maxDates).to.equal(27);
+  	expect(hotel.minDates).to.equal(10);
+  })
+
+  it('should be able to append customer booking information', () => {
+    hotel.appendBookingInfo();
+    expect(domUpdates.clearBookings).to.have.been.called(2);
+    expect(domUpdates.appendBookings).to.have.been.called(2);
+  })
+
+  it('should be able to book room', () => {
+    hotel.bookRoom();
+    expect(domUpdates.hideRoomSelection).to.have.been.called(1);
   })
 });
